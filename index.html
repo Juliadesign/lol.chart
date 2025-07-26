@@ -868,6 +868,108 @@
                 font-size: 13px;
             }
         }
+
+        /* Mode landscape sur mobile */
+        @media (max-width: 900px) and (orientation: landscape) {
+            .container {
+                padding: 8px;
+            }
+
+            .header {
+                margin-bottom: 10px;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .header-card {
+                padding: 0.4em 0.6em;
+                margin-bottom: 10px;
+            }
+            
+            .price-display {
+                max-width: 180px;
+                padding: 0.3em 0.6em;
+                margin-bottom: 10px;
+            }
+
+            .price-display p {
+                font-size: 18px;
+            }
+            
+            .stats-container {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 6px;
+                margin-bottom: 10px;
+            }
+
+            .stat-card {
+                padding: 0.4em 0.3em;
+                min-height: 50px;
+            }
+
+            .stat-card h3 {
+                font-size: 8px;
+                margin-bottom: 4px;
+            }
+
+            .stat-card .value {
+                font-size: 14px;
+            }
+
+            .chart-container {
+                padding: 0.6em;
+                max-height: 250px;
+            }
+
+            .holders-list {
+                max-height: 200px;
+                padding: 0.6em;
+            }
+
+            .holder-row {
+                grid-template-columns: 1fr 1.8fr 0.8fr 0.8fr;
+                gap: 4px;
+                padding: 4px 0;
+            }
+
+            .holder-cell {
+                font-size: 10px;
+            }
+
+            .wallet-address {
+                font-size: 8px;
+            }
+
+            .holders-btn {
+                padding: 0.5em 1em;
+                font-size: 12px;
+            }
+
+            .holders-section {
+                margin-top: 10px;
+            }
+        }
+
+        /* Mode landscape sur très petits écrans */
+        @media (max-width: 700px) and (orientation: landscape) {
+            .header h1 {
+                font-size: 18px;
+            }
+            
+            .stats-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .chart-container {
+                max-height: 200px;
+            }
+
+            .holders-list {
+                max-height: 150px;
+            }
+        }
     </style>
 </head>
 <body>
