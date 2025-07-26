@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Price Chart - CSV Data</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
@@ -538,6 +538,56 @@
             transition: transform 0.3s ease;
         }
 
+        /* Styles responsives pour mobile */
+        @media (max-width: 768px) {
+            .popup-content {
+                padding: 1.5em;
+                width: 95%;
+                max-width: none;
+                margin: 20px;
+            }
+
+            .popup-content h3 {
+                font-size: 24px;
+            }
+
+            .popup-content p {
+                font-size: 14px;
+                line-height: 1.5;
+            }
+
+            .btc-address {
+                font-size: 12px;
+                padding: 0.6em;
+                word-break: break-all;
+            }
+
+            .popup-btn {
+                padding: 0.8em 1.5em;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .popup-content {
+                padding: 1.2em;
+                margin: 10px;
+            }
+
+            .popup-content h3 {
+                font-size: 22px;
+            }
+
+            .popup-content p {
+                font-size: 13px;
+            }
+
+            .btc-address {
+                font-size: 11px;
+                padding: 0.5em;
+            }
+        }
+
         .support-popup.show .popup-content {
             transform: scale(1);
         }
@@ -677,25 +727,145 @@
 
         /* Responsive design */
         @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
             .header h1 {
-                font-size: 32px;
+                font-size: 28px;
             }
             
-            .header p {
+            .header-card {
+                min-width: auto;
+                width: 100%;
+                padding: 0.6em 1em;
+            }
+            
+            .price-display {
+                max-width: 250px;
+                padding: 0.5em 1em;
+            }
+
+            .price-display p {
+                font-size: 24px;
+            }
+            
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+                margin-bottom: 15px;
+            }
+
+            .stat-card {
+                padding: 0.8em 0.5em;
+                min-height: 70px;
+            }
+
+            .stat-card h3 {
+                font-size: 10px;
+            }
+
+            .stat-card .value {
                 font-size: 18px;
+            }
+
+            .chart-container {
+                padding: 1em;
+                max-height: 400px;
+            }
+
+            .holders-list {
+                max-height: 400px;
+                padding: 1em;
+            }
+
+            .holder-row {
+                grid-template-columns: 1fr 1.5fr 0.8fr 0.8fr;
+                gap: 8px;
+                padding: 8px 0;
+            }
+
+            .holder-cell {
+                font-size: 12px;
+            }
+
+            .wallet-address {
+                font-size: 10px;
+            }
+
+            .holders-btn {
+                padding: 0.8em 1.5em;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .header-card {
+                padding: 0.5em 0.8em;
+            }
+            
+            .price-display {
+                max-width: 200px;
+                padding: 0.4em 0.8em;
+            }
+
+            .price-display p {
+                font-size: 20px;
             }
             
             .stats-container {
                 grid-template-columns: 1fr;
+                gap: 8px;
             }
-            
-            .controls {
-                flex-direction: column;
-                align-items: stretch;
+
+            .stat-card {
+                padding: 0.6em 0.4em;
+                min-height: 60px;
             }
-            
-            .control-group {
-                justify-content: space-between;
+
+            .stat-card h3 {
+                font-size: 9px;
+            }
+
+            .stat-card .value {
+                font-size: 16px;
+            }
+
+            .chart-container {
+                padding: 0.8em;
+                max-height: 350px;
+            }
+
+            .holders-list {
+                max-height: 350px;
+                padding: 0.8em;
+            }
+
+            .holder-row {
+                grid-template-columns: 1fr 1.2fr 0.7fr 0.7fr;
+                gap: 6px;
+                padding: 6px 0;
+            }
+
+            .holder-cell {
+                font-size: 11px;
+            }
+
+            .wallet-address {
+                font-size: 9px;
+            }
+
+            .holders-btn {
+                padding: 0.6em 1.2em;
+                font-size: 13px;
             }
         }
     </style>
@@ -1323,19 +1493,63 @@
             // Ajouter l'événement de clic pour copier l'adresse BTC
             const btcAddress = document.querySelector('.btc-address');
             btcAddress.addEventListener('click', function() {
-                navigator.clipboard.writeText(this.textContent).then(() => {
-                    // Feedback visuel temporaire
-                    const originalText = this.textContent;
-                    this.textContent = 'Copied!';
-                    this.style.background = 'rgba(212, 196, 168, 0.3)';
-                    
-                    setTimeout(() => {
-                        this.textContent = originalText;
-                        this.style.background = 'rgba(212, 196, 168, 0.1)';
-                    }, 1500);
-                });
+                // Méthode compatible mobile et desktop
+                const textToCopy = this.textContent;
+                
+                if (navigator.clipboard && window.isSecureContext) {
+                    // Méthode moderne pour HTTPS
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        showCopyFeedback(this);
+                    }).catch(() => {
+                        // Fallback pour mobile
+                        fallbackCopyTextToClipboard(textToCopy, this);
+                    });
+                } else {
+                    // Fallback pour HTTP ou mobile
+                    fallbackCopyTextToClipboard(textToCopy, this);
+                }
             });
         }
+
+        // Fonction pour afficher le feedback de copie
+        function showCopyFeedback(element) {
+            const originalText = element.textContent;
+            element.textContent = 'Copied!';
+            element.style.background = 'rgba(212, 196, 168, 0.3)';
+            
+            setTimeout(() => {
+                element.textContent = originalText;
+                element.style.background = 'rgba(212, 196, 168, 0.1)';
+            }, 1500);
+        }
+
+        // Fallback pour copier le texte (compatible mobile)
+        function fallbackCopyTextToClipboard(text, element) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showCopyFeedback(element);
+            } catch (err) {
+                console.error('Erreur lors de la copie:', err);
+                // Feedback d'erreur
+                element.textContent = 'Error!';
+                element.style.background = 'rgba(255, 0, 0, 0.2)';
+                setTimeout(() => {
+                    element.textContent = text;
+                    element.style.background = 'rgba(212, 196, 168, 0.1)';
+                }, 1500);
+            }
+            
+                         document.body.removeChild(textArea);
+         }
 
         // Appeler updateHolders au chargement de la page
         window.onload = function() {
